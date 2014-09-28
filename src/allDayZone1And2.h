@@ -14,6 +14,8 @@ class AllDayZone1And2 : public TravelPass
 {
 
 public:
+	static const float DEFAULT_PRICE = 6.8;
+
   AllDayZone1And2();
   AllDayZone1And2(string theLength, string theZones, float theCost);
    ~AllDayZone1And2() ; 

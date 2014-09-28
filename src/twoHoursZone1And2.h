@@ -14,6 +14,8 @@ class TwoHoursZone1And2 : public TravelPass
 {
 
 public:
+	static const float DEFAULT_PRICE = 3.5;
+
   TwoHoursZone1And2();
   TwoHoursZone1And2(string theLength, string theZones, float theCost);
    ~TwoHoursZone1And2() ; 

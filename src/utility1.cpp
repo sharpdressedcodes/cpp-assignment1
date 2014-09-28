@@ -10,3 +10,4 @@ void clearInputBuffer()     // function to clear the input buffer
    }
    while(symbol != '\n');
 }
+
