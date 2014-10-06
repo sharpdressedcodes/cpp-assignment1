@@ -14,15 +14,17 @@
 using namespace std;
 using std::vector;
 
-#define MAX_MENU 4
+#define MAX_MENU 5
 #define MENU_INDEX_QUIT 0
 #define MENU_INDEX_BUY 1
 #define MENU_INDEX_CHARGE 2
 #define MENU_INDEX_SHOW 3
+#define MENU_INDEX_PRINT 4
 #define MENU_STRING_QUIT "Quit"
 #define MENU_STRING_BUY "Buy a travel pass"
 #define MENU_STRING_CHARGE "Charge my MyTic"
 #define MENU_STRING_SHOW "Show remaining credit"
+#define MENU_STRING_PRINT "Print purchases"
 
 #define MAX_MENU_TIME 3
 #define MENU_INDEX_TIME_2HOURS 'a'
@@ -72,6 +74,7 @@ public:
 	void showCredit(const MyTic tic);
 	void addCredit(MyTic& tic);
 	bool buyTicket(MyTic& tic, subMenu timeOptions, subMenu zoneOptions);
+	void printPurchases(MyTic& tic);
 	bool validateTimeOption(const char option, subMenu timeOptions);
 	bool validateZoneOption(const char option, subMenu zoneOptions);
 	TravelPass* assignTravelPass(subMenuOption timeOption, subMenuOption zoneOption);

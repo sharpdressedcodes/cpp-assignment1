@@ -11,4 +11,8 @@ AllDayZone1::~AllDayZone1(){}
 
 void AllDayZone1::input(){}
 
-void AllDayZone1::print(){}
+void AllDayZone1::print(){
+
+	cout << this->length << " pass for " << this->zones << ", costing $" << Utility::floatToString(this->cost, 2) << endl;
+
+}

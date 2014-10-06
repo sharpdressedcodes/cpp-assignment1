@@ -9,7 +9,7 @@
 int main(){
 
 	//Create MyTic object and use this object in the menu
-	MyTic tic;
+	MyTic tic(MAX_TRAVELPASSES);
 	UI::mainMenu options;
 	UI::subMenu timeOptions;
 	UI::subMenu zoneOptions;

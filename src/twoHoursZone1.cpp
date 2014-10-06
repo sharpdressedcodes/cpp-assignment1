@@ -11,4 +11,8 @@ TwoHoursZone1::~TwoHoursZone1(){}
 
 void TwoHoursZone1::input(){}
 
-void TwoHoursZone1::print(){}
+void TwoHoursZone1::print(){
+
+	cout << this->length << " pass for " << this->zones << ", costing $" << Utility::floatToString(this->cost, 2) << endl;
+
+}

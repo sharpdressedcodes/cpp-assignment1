@@ -33,6 +33,9 @@ void UI::loadMenu(mainMenu& options){
 	options[i]->index = MENU_INDEX_SHOW;
 	options[i++]->text = MENU_STRING_SHOW;
 
+	options[i]->index = MENU_INDEX_PRINT;
+	options[i++]->text = MENU_STRING_PRINT;
+
 }
 
 void UI::loadTimeMenu(subMenu& timeOptions){
@@ -156,8 +159,9 @@ bool UI::buyTicket(MyTic& tic, subMenu timeOptions, subMenu zoneOptions){
 				if (cost > tic.getCredit()){
 					cerr << "Sorry, you don't have enough credit for that selection.\n";
 				} else {
-					tic.addCredit(-cost);
-					cout << "You purchased " << timeOption->text << " pass for " << zoneOption->text << ", costing $" << Utility::floatToString(cost, 2) << endl;
+					tic.buyPass(pass);
+					cout << "You purchased ";
+					pass->print();
 					showCredit(tic);
 
 				}
@@ -168,6 +172,24 @@ bool UI::buyTicket(MyTic& tic, subMenu timeOptions, subMenu zoneOptions){
 	}
 
 	return result;
+
+}
+
+void UI::printPurchases(MyTic& tic){
+
+	vector<TravelPass*> purchases = tic.getPurchases();
+
+	cout << "\nPurchases: ($" << Utility::floatToString(tic.getPurchaseTotal(), 2) << ")\n";
+
+	if (purchases.size() > 0){
+		for (vector<TravelPass*>::const_iterator it = purchases.begin(); it != purchases.end(); ++it){
+			cout << "Purchased ";
+			(*it)->print();
+		}
+		cout << endl;
+	} else {
+		cout << "No purchases found.\n\n";
+	}
 
 }
 
@@ -212,6 +234,11 @@ void UI::enterMenu(MyTic& tic, mainMenu options, subMenu timeOptions, subMenu zo
 		case MENU_INDEX_SHOW:
 
 			showCredit(tic);
+			break;
+
+		case MENU_INDEX_PRINT:
+
+			printPurchases(tic);
 			break;
 
 		case MENU_INDEX_QUIT:
@@ -374,7 +401,9 @@ TravelPass* UI::assignTravelPass(subMenuOption timeOption, subMenuOption zoneOpt
 	TravelPass* pass = NULL;
 
 	switch (timeOption->index){
+
 	case MENU_INDEX_TIME_2HOURS:
+
 		switch (zoneOption->index){
 		case MENU_INDEX_ZONE_1:
 			pass = new TwoHoursZone1();
@@ -384,7 +413,9 @@ TravelPass* UI::assignTravelPass(subMenuOption timeOption, subMenuOption zoneOpt
 			break;
 		}
 		break;
+
 	case MENU_INDEX_TIME_DAY:
+
 		switch (zoneOption->index){
 		case MENU_INDEX_ZONE_1:
 			pass = new AllDayZone1();
@@ -393,7 +424,9 @@ TravelPass* UI::assignTravelPass(subMenuOption timeOption, subMenuOption zoneOpt
 			pass = new AllDayZone1And2();
 			break;
 		}
+
 		break;
+
 	}
 
 	return pass;
