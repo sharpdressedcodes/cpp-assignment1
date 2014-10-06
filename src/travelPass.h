@@ -10,7 +10,7 @@
 
 #include <string>
 #include <iostream>
-#include "utility1.h"
+#include "utility.h"
 
 using std::string;
 using namespace std;
@@ -26,17 +26,17 @@ protected:
 public:
   TravelPass();
   TravelPass(string theLength, string theZones, float theCost);
-   ~TravelPass() ; 
-  void input() ;   // Data input for a TravelPass object
-  void print() ;  // Data output for a TravelPass object
+  virtual ~TravelPass();
+  virtual void input() = 0;   // Data input for a TravelPass object
+  virtual void print() = 0;  // Data output for a TravelPass object
 
-  string getLength() const;   //Note the use of const
-  string getZones() const; 
-  float getCost() const;
+  virtual string getLength() const;   //Note the use of const
+  virtual string getZones() const;
+  virtual float getCost() const;
 
-  void setLength(string newLength);
-  void setZones(string newZones);
-  void setCost( float  newCost);
+  virtual void setLength(string newLength);
+  virtual void setZones(string newZones);
+  virtual void setCost(float newCost);
 };
 
 #endif

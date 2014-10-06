@@ -11,6 +11,8 @@
 #include <string>
 #include "myTic.h"
 
+#include "ui.h"
+
 #include "travelPass.h"
 
 #include "twoHoursZone1.h"
@@ -19,4 +21,5 @@
 #include "allDayZone1And2.h"
 #define MAX_TRAVELPASSES 100
 using namespace std;
+
 #endif

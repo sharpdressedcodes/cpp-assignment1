@@ -16,8 +16,6 @@ private:
   float credit;
   float limit;
   /*TO DO ANY FURTHER ATTRIBUTES AND CONSTANTS*/
-  
-  //const float MAX_LIMIT = 100.0;
 
 public:
   static const float MAX_LIMIT = 100.0;

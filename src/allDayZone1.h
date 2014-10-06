@@ -14,14 +14,16 @@ class AllDayZone1 : public TravelPass
 {
 
 public:
-	static const float DEFAULT_PRICE = 4.9;
+	static const float DEFAULT_PRICE;
+	static const string DEFAULT_LENGTH;
+	static const string DEFAULT_ZONES;
 
-  AllDayZone1();
-  AllDayZone1(string theLength, string theZones, float theCost);
-   ~AllDayZone1() ; 
-  void input() ;   // Data input for a AllDayZone1 object
-  void print() ;  // Data output for a AllDayZone1object
-  
+	AllDayZone1();
+	AllDayZone1(string theLength, string theZones, float theCost);
+	~AllDayZone1();
+	void input();   // Data input for a AllDayZone1 object
+	void print();  // Data output for a AllDayZone1object
+
 };
 
 #endif

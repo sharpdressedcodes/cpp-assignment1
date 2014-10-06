@@ -14,13 +14,15 @@ class TwoHoursZone1 : public TravelPass
 {
 
 public:
-	static const float DEFAULT_PRICE = 2.5;
+	static const float DEFAULT_PRICE;
+	static const string DEFAULT_LENGTH;
+	static const string DEFAULT_ZONES;
 
-  TwoHoursZone1();
-  TwoHoursZone1(string theLength, string theZones, float theCost);
-   ~TwoHoursZone1() ; 
-  void input() ;   // Data input for a TwoHoursZone1 object
-  void print() ;   // Data output for a TwoHoursZone1 object
+	TwoHoursZone1();
+	TwoHoursZone1(string theLength, string theZones, float theCost);
+	~TwoHoursZone1();
+	void input();   // Data input for a TwoHoursZone1 object
+	void print();   // Data output for a TwoHoursZone1 object
   
 };
 
