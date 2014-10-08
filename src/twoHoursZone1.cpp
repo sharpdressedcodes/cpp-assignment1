@@ -13,6 +13,50 @@ void TwoHoursZone1::input(){}
 
 void TwoHoursZone1::print(){
 
-	cout << this->length << " pass for " << this->zones << ", costing $" << Utility::floatToString(this->cost, 2) << endl;
+	cout << this->toString();
+
+}
+
+bool TwoHoursZone1::isTravelPass(TravelPass& pUnknown){
+
+	TwoHoursZone1* test = dynamic_cast<TwoHoursZone1*>(&pUnknown);
+
+	if (test)
+		return true;
+	else
+		return false;
+
+}
+
+string TwoHoursZone1::toString(){
+
+	stringstream ss;
+
+	ss << this->length << " pass for " << this->zones << ", costing $" << Utility::floatToString(this->cost, 2) << endl;
+
+	return ss.str();
+
+}
+
+ostream& operator<<(ostream& stream, TwoHoursZone1& pass){
+
+	stream << pass.toString();
+
+	return stream;
+
+}
+
+istream& operator>>(istream& stream, TwoHoursZone1& pass){
+
+	cout << "Enter length: ";
+	stream >> pass.length;
+
+	cout << "Enter zones: ";
+	stream >> pass.zones;
+
+	cout << "Enter cost: ";
+	stream >> pass.cost;
+
+	return stream;
 
 }

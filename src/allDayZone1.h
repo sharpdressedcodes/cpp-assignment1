@@ -23,6 +23,11 @@ public:
 	~AllDayZone1();
 	void input();   // Data input for a AllDayZone1 object
 	void print();  // Data output for a AllDayZone1object
+	bool isTravelPass(TravelPass& pUnknown);
+	string toString();
+
+	friend ostream& operator<<(ostream& stream, AllDayZone1& pass);
+	friend istream& operator>>(istream& stream, AllDayZone1& pass);
 
 };
 

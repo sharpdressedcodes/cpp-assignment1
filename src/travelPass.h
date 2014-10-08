@@ -10,6 +10,8 @@
 
 #include <string>
 #include <iostream>
+//#include <sstream>
+#include <typeinfo>
 #include "utility.h"
 
 using std::string;
@@ -37,6 +39,8 @@ public:
   virtual void setLength(string newLength);
   virtual void setZones(string newZones);
   virtual void setCost(float newCost);
+  virtual bool isTravelPass(TravelPass& pUnknown) = 0;
+  virtual string toString() = 0;
 };
 
 #endif

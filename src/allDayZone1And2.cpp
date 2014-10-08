@@ -13,6 +13,50 @@ void AllDayZone1And2::input(){}
 
 void AllDayZone1And2::print(){
 
-	cout << this->length << " pass for " << this->zones << ", costing $" << Utility::floatToString(this->cost, 2) << endl;
+	cout << this->toString();
+
+}
+
+bool AllDayZone1And2::isTravelPass(TravelPass& pUnknown){
+
+	AllDayZone1And2* test = dynamic_cast<AllDayZone1And2*>(&pUnknown);
+
+	if (test)
+		return true;
+	else
+		return false;
+
+}
+
+string AllDayZone1And2::toString(){
+
+	stringstream ss;
+
+	ss << this->length << " pass for " << this->zones << ", costing $" << Utility::floatToString(this->cost, 2) << endl;
+
+	return ss.str();
+
+}
+
+ostream& operator<<(ostream& stream, AllDayZone1And2& pass){
+
+	stream << pass.toString();
+
+	return stream;
+
+}
+
+istream& operator>>(istream& stream, AllDayZone1And2& pass){
+
+	cout << "Enter length: ";
+	stream >> pass.length;
+
+	cout << "Enter zones: ";
+	stream >> pass.zones;
+
+	cout << "Enter cost: ";
+	stream >> pass.cost;
+
+	return stream;
 
 }

@@ -23,6 +23,11 @@ public:
 	~TwoHoursZone1();
 	void input();   // Data input for a TwoHoursZone1 object
 	void print();   // Data output for a TwoHoursZone1 object
+	bool isTravelPass(TravelPass& pUnknown);
+	string toString();
+
+	friend ostream& operator<<(ostream& stream, TwoHoursZone1& pass);
+	friend istream& operator>>(istream& stream, TwoHoursZone1& pass);
   
 };
 

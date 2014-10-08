@@ -24,6 +24,13 @@ int main(){
 	UI::instance()->deleteTimeMenu(timeOptions);
 	UI::instance()->deleteZoneMenu(zoneOptions);
 
-	return 0;
+	/*
+	 * Task C4 - uncomment to check.
+	 */
+	//TwoHoursZone1 thz1;
+	//cin >> thz1;
+	//cout << thz1;
+
+	return EXIT_SUCCESS;
 
 }
