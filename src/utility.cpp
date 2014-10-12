@@ -73,7 +73,7 @@ string Utility::getStringFromConsole(const unsigned int min, const unsigned int 
 
 }
 
-int Utility::stringToInt(const string str){
+int Utility::stringToInt(const string& str){
 
 	long int result;
 	istringstream buffer(str);
@@ -99,7 +99,7 @@ string Utility::floatToString(const float number, const int precision = -1){
 
 	if (precision > -1){
 		ss.setf(ios::fixed | ios::showpoint);
-		ss.precision(2);
+		ss.precision(precision);
 	}
 
 	ss << number;

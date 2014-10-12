@@ -11,11 +11,8 @@
 #include <string>
 #include <cstdlib>
 #include "myTic.h"
-
-#include "ui.h"
-
+#include "uI.h"
 #include "travelPass.h"
-
 #include "twoHoursZone1.h"
 #include "twoHoursZone1And2.h"
 #include "allDayZone1.h"

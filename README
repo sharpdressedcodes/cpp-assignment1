@@ -1,10 +1,10 @@
 /****************************************************************************
 * CPT 323 - Object Oriented Programming in C++
 * Study Period 3 2014 Assignment #1 - "MelbourneConnect - RMIT" Ticketing System
-* Full Name        : EDIT HERE
-* Student Number   : EDIT HERE
-* Course Code      : EDIT HERE
-* Program Code     : EDIT HERE
+* Full Name        : Greg Kappatos
+* Student Number   : 3460969
+* Course Code      : CPT323
+* Program Code     : ?
 * Start up code provided by Robert T.McQuillan
 ****************************************************************************/
 
@@ -14,31 +14,35 @@ anonymous student sample solution?
 -----------------------------------------------------------------------------
 
 Yes/No
+No
 
 -----------------------------------------------------------------------------
 
-
-
-
 Known bugs:
 -----------
-
+None
 
 
 Incomplete functionality:
 -------------------------
-
+None
 
 
 Assumptions:
 ------------
+None
 
 
 SECTION C 
 Answer to Array of TravelPass Objects vs. Array of TravelPass 
 Pointers:
 -----------------------------------------------------------------------
-
+Because we run into the slicing problem. When we cast back to a TravelPass
+object, we will lose information about the derived objects. We cannot get
+that information back afterwards.
 
 Any other notes for the marker:
 -------------------------------
+The input method was not implemented in the TravelPass class,
+but I wanted to avoid coupling the class with the user interface. I left
+the management of input up to the user interface class.
