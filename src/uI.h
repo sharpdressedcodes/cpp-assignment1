@@ -14,29 +14,28 @@
 using namespace std;
 using std::vector;
 
-#define MAX_MENU 5
-#define MENU_INDEX_QUIT 0
-#define MENU_INDEX_BUY 1
-#define MENU_INDEX_CHARGE 2
-#define MENU_INDEX_SHOW 3
-#define MENU_INDEX_PRINT 4
-#define MENU_STRING_QUIT "Quit"
-#define MENU_STRING_BUY "Buy a travel pass"
-#define MENU_STRING_CHARGE "Charge my MyTic"
-#define MENU_STRING_SHOW "Show remaining credit"
-#define MENU_STRING_PRINT "Print purchases"
+enum MENU_OPTIONS {
+	MENU_INDEX_QUIT,
+	MENU_INDEX_BUY,
+	MENU_INDEX_CHARGE,
+	MENU_INDEX_SHOW,
+	MENU_INDEX_PRINT,
+	MAX_MENU
+};
 
-#define MAX_MENU_TIME 3
-#define MENU_INDEX_TIME_2HOURS 'a'
-#define MENU_INDEX_TIME_DAY 'b'
-#define MENU_INDEX_TIME_CANCEL 'c'
-#define MENU_STRING_TIME_CANCEL "Cancel"
+enum MENU_TIME_OPTIONS {
+	MENU_INDEX_TIME_2HOURS = 'a',
+	MENU_INDEX_TIME_DAY = 'b',
+	MENU_INDEX_TIME_CANCEL = 'c',
+	MAX_MENU_TIME = 3
+};
 
-#define MAX_MENU_ZONE 3
-#define MENU_INDEX_ZONE_1 'a'
-#define MENU_INDEX_ZONE_1AND2 'b'
-#define MENU_INDEX_ZONE_CANCEL 'c'
-#define MENU_STRING_ZONE_CANCEL "Cancel"
+enum MENU_ZONE_OPTIONS {
+	MENU_INDEX_ZONE_1 = 'a',
+	MENU_INDEX_ZONE_1AND2 = 'b',
+	MENU_INDEX_ZONE_CANCEL = 'c',
+	MAX_MENU_ZONE = 3
+};
 
 class UI {
 
@@ -46,6 +45,35 @@ private:
 	UI(UI const&){}
 	UI& operator=(UI const&);//{}
 	static UI *m_instance;
+
+	static string MENU_STRING_QUIT;
+	static string MENU_STRING_BUY;
+	static string MENU_STRING_CHARGE;
+	static string MENU_STRING_SHOW;
+	static string MENU_STRING_PRINT;
+	static string MENU_STRING_CANCEL;
+
+	static string CREDIT_PREFIX;
+	static string YOU_PURCHASED_PREFIX;
+	static string PURCHASED_PREFIX;
+	static string PURCHASES_PREFIX;
+	static string PURCHASES_SUFFIX;
+
+	static string MESSAGE_CANNOT_ADD_CREDIT;
+	static string MESSAGE_INVALID_AMOUNT;
+	static string MESSAGE_ADD_CREDIT;
+	static string MESSAGE_CREDIT_OVER;
+	static string MESSAGE_CREDIT_DIVISOR;
+	static string MESSAGE_NOT_ENOUGH_CREDIT;
+	static string MESSAGE_NO_PURCHASES;
+	static string MESSAGE_MENU_WELCOME;
+	static string MESSAGE_MENU_OPTION;
+	static string MESSAGE_MENU_SELECTION;
+	static string MESSAGE_MENU_INVALID_SELECTION;
+	static string MESSAGE_MENU_GOODBYE;
+	static string MESSAGE_MENU_TIME_PERIOD;
+	static string MESSAGE_MENU_YOUR_SELECTION;
+	static string MESSAGE_MENU_ZONE;
 
 public:
 

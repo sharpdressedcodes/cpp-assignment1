@@ -46,3 +46,5 @@ Any other notes for the marker:
 The input method was not implemented in the TravelPass class,
 but I wanted to avoid coupling the class with the user interface. I left
 the management of input up to the user interface class.
+
+Also, using a vector is preferred over using an array.

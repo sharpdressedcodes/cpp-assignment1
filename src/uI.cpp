@@ -2,6 +2,35 @@
 
 UI *UI::m_instance = NULL;
 
+string UI::MENU_STRING_QUIT = "Quit";
+string UI::MENU_STRING_BUY = "Buy a travel pass";
+string UI::MENU_STRING_CHARGE = "Charge my MyTic";
+string UI::MENU_STRING_SHOW = "Show remaining credit";
+string UI::MENU_STRING_PRINT = "Print purchases";
+string UI::MENU_STRING_CANCEL = "Cancel";
+
+string UI::CREDIT_PREFIX = "Your credit = $";
+string UI::YOU_PURCHASED_PREFIX = "You purchased ";
+string UI::PURCHASED_PREFIX = "Purchased ";
+string UI::PURCHASES_PREFIX = "\nPurchases: ($";
+string UI::PURCHASES_SUFFIX = ")\n";
+
+string UI::MESSAGE_CANNOT_ADD_CREDIT = "You cannot add anymore credit!";
+string UI::MESSAGE_INVALID_AMOUNT = "Invalid amount";
+string UI::MESSAGE_ADD_CREDIT = "How much do you want to add: ";
+string UI::MESSAGE_CREDIT_OVER = "Sorry, the maximum allowed credit is $";
+string UI::MESSAGE_CREDIT_DIVISOR = "Sorry, you can only add multiples of $";
+string UI::MESSAGE_NOT_ENOUGH_CREDIT = "Sorry, you don't have enough credit for that selection.";
+string UI::MESSAGE_NO_PURCHASES = "No purchases found.\n\n";
+string UI::MESSAGE_MENU_WELCOME = "Welcome to MyTic!";
+string UI::MESSAGE_MENU_OPTION = "Choose an option:";
+string UI::MESSAGE_MENU_SELECTION = "Please make a selection: ";
+string UI::MESSAGE_MENU_INVALID_SELECTION = "Sorry, that is an invalid option!";
+string UI::MESSAGE_MENU_GOODBYE = "Goodbye!";
+string UI::MESSAGE_MENU_TIME_PERIOD = "\nWhat time period:";
+string UI::MESSAGE_MENU_YOUR_SELECTION = "Your selection: ";
+string UI::MESSAGE_MENU_ZONE = "\nWhich zone:";
+
 UI *UI::instance(){
 
 	if (!m_instance)
@@ -55,7 +84,7 @@ void UI::loadTimeMenu(subMenu& timeOptions){
 
 	timeOptions[i]->isQuit = true;
 	timeOptions[i]->index = MENU_INDEX_TIME_CANCEL;
-	timeOptions[i++]->text = MENU_STRING_TIME_CANCEL;
+	timeOptions[i++]->text = MENU_STRING_CANCEL;
 
 }
 
@@ -76,7 +105,7 @@ void UI::loadZoneMenu(subMenu& zoneOptions){
 
 	zoneOptions[i]->isQuit = true;
 	zoneOptions[i]->index = MENU_INDEX_ZONE_CANCEL;
-	zoneOptions[i++]->text = MENU_STRING_ZONE_CANCEL;
+	zoneOptions[i++]->text = MENU_STRING_CANCEL;
 
 }
 
@@ -109,7 +138,7 @@ void UI::deleteZoneMenu(subMenu& zoneOptions){
 
 void UI::showCredit(const MyTic tic) {
 
-	cout << "Your credit = $" << Utility::floatToString(tic.getCredit(), 2) << "\n\n";
+	cout << CREDIT_PREFIX << Utility::floatToString(tic.getCredit(), 2) << "\n\n";
 
 }
 
@@ -120,15 +149,15 @@ void UI::addCredit(MyTic& tic){
 
 	while (!chargeValid){
 		if (tic.getCredit() >= tic.getLimit()){
-			cerr << "You cannot add anymore credit!\n";
+			cerr << MESSAGE_CANNOT_ADD_CREDIT << endl;
 			break;
 		}
-		charge = Utility::getIntFromConsole(0, tic.getLimit(), "How much do you want to add: ", "Invalid amount", false);
+		charge = Utility::getIntFromConsole(0, tic.getLimit(), MESSAGE_ADD_CREDIT, MESSAGE_INVALID_AMOUNT, false);
 		if (charge > 0){
 			if (tic.getCredit() + charge > tic.getLimit()){
-				cerr << "Sorry, the maximum allowed credit is $" << Utility::floatToString((float)tic.getLimit(), 2)  << "\n";
+				cerr << MESSAGE_CREDIT_OVER << Utility::floatToString((float)tic.getLimit(), 2)  << endl;
 			} else if (charge % MyTic::AMOUNT_DIVISOR != 0){
-				cerr << "Sorry, you can only add multiples of $" << Utility::floatToString((float)MyTic::AMOUNT_DIVISOR, 2) << "\n";
+				cerr << MESSAGE_CREDIT_DIVISOR << Utility::floatToString((float)MyTic::AMOUNT_DIVISOR, 2) << endl;
 			} else {
 				chargeValid = true;
 				tic.addCredit(charge);
@@ -157,10 +186,10 @@ bool UI::buyTicket(MyTic& tic, subMenu timeOptions, subMenu zoneOptions){
 				float cost = pass->getCost();
 
 				if (cost > tic.getCredit()){
-					cerr << "Sorry, you don't have enough credit for that selection.\n";
+					cerr << MESSAGE_NOT_ENOUGH_CREDIT << endl;
 				} else {
 					tic.buyPass(pass);
-					cout << "You purchased ";
+					cout << YOU_PURCHASED_PREFIX;
 					pass->print();
 					showCredit(tic);
 
@@ -179,16 +208,16 @@ void UI::printPurchases(MyTic& tic){
 
 	vector<TravelPass*> purchases = tic.getPurchases();
 
-	cout << "\nPurchases: ($" << Utility::floatToString(tic.getPurchaseTotal(), 2) << ")\n";
+	cout << PURCHASES_PREFIX << Utility::floatToString(tic.getPurchaseTotal(), 2) << PURCHASES_SUFFIX;
 
 	if (purchases.size() > 0){
 		for (vector<TravelPass*>::const_iterator it = purchases.begin(); it != purchases.end(); ++it){
-			cout << "Purchased ";
+			cout << PURCHASED_PREFIX;
 			(*it)->print();
 		}
 		cout << endl;
 	} else {
-		cout << "No purchases found.\n\n";
+		cout << MESSAGE_NO_PURCHASES;
 	}
 
 }
@@ -197,13 +226,13 @@ void UI::enterMenu(MyTic& tic, mainMenu options, subMenu timeOptions, subMenu zo
 
 	bool hasQuit = false;
 
-	cout << "Welcome to MyTic!\n";
+	cout << MESSAGE_MENU_WELCOME << endl;
 
 	while (!hasQuit) {
 
 		mainMenuOption quitOption = NULL;
 
-		cout << "Choose an option:\n";
+		cout << MESSAGE_MENU_OPTION << endl;
 
 		for (mainMenu::iterator it = options.begin(); it != options.end(); ++it){
 			mainMenuOption option = (*it);
@@ -216,7 +245,7 @@ void UI::enterMenu(MyTic& tic, mainMenu options, subMenu timeOptions, subMenu zo
 		if (quitOption)
 			cout << quitOption->index << ". " << quitOption->text << endl;
 
-		int selection = Utility::getIntFromConsole(0, MAX_MENU, "Please make a selection: ", "Sorry, that is an invalid option!", false);
+		int selection = Utility::getIntFromConsole(0, MAX_MENU, MESSAGE_MENU_SELECTION, MESSAGE_MENU_INVALID_SELECTION, false);
 
 		switch (selection){
 
@@ -250,7 +279,7 @@ void UI::enterMenu(MyTic& tic, mainMenu options, subMenu timeOptions, subMenu zo
 
 	}
 
-	cout << "Goodbye!\n";
+	cout << MESSAGE_MENU_GOODBYE << endl;
 
 }
 
@@ -262,7 +291,7 @@ UI::subMenuOption UI::enterTimeMenu(MyTic& tic, subMenu timeOptions){
 
 		subMenuOption quitOption = NULL;
 
-		cout << "\nWhat time period:\n";
+		cout << MESSAGE_MENU_TIME_PERIOD << endl;
 
 		for (subMenu::iterator it = timeOptions.begin(); it != timeOptions.end(); ++it){
 			subMenuOption option = (*it);
@@ -280,11 +309,11 @@ UI::subMenuOption UI::enterTimeMenu(MyTic& tic, subMenu timeOptions){
 
 		do {
 			validSelection = false;
-			selection = Utility::getStringFromConsole(1, 1, "Your selection: ", "Sorry, that is an invalid option!", false);
+			selection = Utility::getStringFromConsole(1, 1, MESSAGE_MENU_YOUR_SELECTION, MESSAGE_MENU_INVALID_SELECTION, false);
 			if (!selection.empty())
 				validSelection = validateTimeOption(selection[0], timeOptions);
 			if (!validSelection)
-				cerr << "Sorry, that is an invalid option!\n";
+				cerr << MESSAGE_MENU_INVALID_SELECTION << endl;
 		} while (!validSelection);
 
 		switch (selection[0]){
@@ -318,7 +347,7 @@ UI::subMenuOption UI::enterZoneMenu(MyTic& tic, subMenu zoneOptions){
 
 		subMenuOption quitOption = NULL;
 
-		cout << "\nWhich zone:\n";
+		cout << MESSAGE_MENU_ZONE << endl;
 
 		for (subMenu::iterator it = zoneOptions.begin(); it != zoneOptions.end(); ++it){
 			subMenuOption option = (*it);
@@ -336,11 +365,11 @@ UI::subMenuOption UI::enterZoneMenu(MyTic& tic, subMenu zoneOptions){
 
 		do {
 			validSelection = false;
-			selection = Utility::getStringFromConsole(1, 1, "Your selection: ", "Sorry, that is an invalid option!", false);
+			selection = Utility::getStringFromConsole(1, 1, MESSAGE_MENU_YOUR_SELECTION, MESSAGE_MENU_INVALID_SELECTION, false);
 			if (!selection.empty())
 				validSelection = validateZoneOption(selection[0], zoneOptions);
 			if (!validSelection)
-				cerr << "Sorry, that is an invalid option!\n";
+				cerr << MESSAGE_MENU_INVALID_SELECTION << endl;
 		} while (!validSelection);
 
 		switch (selection[0]){
