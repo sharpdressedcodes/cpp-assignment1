@@ -147,48 +147,48 @@ void UI::deleteZoneMenu(subMenu& zoneOptions){
 
 }
 
-void UI::showCredit(const MyTic tic) {
+void UI::showCredit(const MyTic& tic) {
 
 	cout << CREDIT_PREFIX << Utility::floatToString(tic.getCredit(), 2) << "\n\n";
 
 }
 
-void UI::addCredit(MyTic* tic){
+void UI::addCredit(MyTic& tic){
 
 	bool chargeValid = false;
 	int charge = 0;
 
 	while (!chargeValid){
-		if (tic->getCredit() >= tic->getLimit()){
+		if (tic.getCredit() >= tic.getLimit()){
 			cerr << MESSAGE_CANNOT_ADD_CREDIT << endl;
 			break;
 		}
 
 		stringstream ss;
-		ss << MESSAGE_CREDIT_OVER << Utility::floatToString((float)tic->getLimit(), 2);
-		charge = Utility::getIntFromConsole(0, tic->getLimit(), MESSAGE_ADD_CREDIT, ss.str(), false);
+		ss << MESSAGE_CREDIT_OVER << Utility::floatToString((float)tic.getLimit(), 2);
+		charge = Utility::getIntFromConsole(0, tic.getLimit(), MESSAGE_ADD_CREDIT, ss.str(), false);
 
 		if (charge > 0){
-			if (tic->getCredit() + charge > tic->getLimit()){
+			if (tic.getCredit() + charge > tic.getLimit()){
 				cerr << ss.str() << endl;
 			} else if (charge % MyTic::AMOUNT_DIVISOR != 0){
 				cerr << MESSAGE_CREDIT_DIVISOR << Utility::floatToString((float)MyTic::AMOUNT_DIVISOR, 2) << endl;
 			} else {
 				chargeValid = true;
-				tic->addCredit(charge);
+				tic.addCredit(charge);
 			}
 		}
 	}
 
 }
 
-bool UI::buyTicket(MyTic* tic, subMenu timeOptions, subMenu zoneOptions){
+bool UI::buyTicket(MyTic& tic, subMenu timeOptions, subMenu zoneOptions){
 
 	bool result = false;
 	subMenuOption timeOption = NULL;
 	subMenuOption zoneOption = NULL;
 
-	if (tic->getCredit() == 0){
+	if (tic.getCredit() == 0){
 		cerr << MESSAGE_NO_CREDIT << endl;
 		return false;
 	}
@@ -205,13 +205,13 @@ bool UI::buyTicket(MyTic* tic, subMenu timeOptions, subMenu zoneOptions){
 
 				float cost = pass->getCost();
 
-				if (cost > tic->getCredit()){
+				if (cost > tic.getCredit()){
 					cerr << MESSAGE_NOT_ENOUGH_CREDIT << endl;
 				} else {
-					if (tic->buyPass(pass)){
+					if (tic.buyPass(pass)){
 						cout << YOU_PURCHASED_PREFIX;
 						pass->print();
-						showCredit(*tic);
+						showCredit(tic);
 					} else {
 						cerr << MESSAGE_MAX_PASSES << endl;
 					}
@@ -226,11 +226,11 @@ bool UI::buyTicket(MyTic* tic, subMenu timeOptions, subMenu zoneOptions){
 
 }
 
-void UI::printPurchases(MyTic* tic){
+void UI::printPurchases(MyTic& tic){
 
-	vector<TravelPass*> purchases = tic->getPurchases();
+	vector<TravelPass*> purchases = tic.getPurchases();
 
-	cout << PURCHASES_PREFIX << Utility::floatToString(tic->getPurchaseTotal(), 2) << PURCHASES_SUFFIX;
+	cout << PURCHASES_PREFIX << Utility::floatToString(tic.getPurchaseTotal(), 2) << PURCHASES_SUFFIX;
 
 	if (purchases.size() > 0){
 		for (vector<TravelPass*>::const_iterator it = purchases.begin(); it != purchases.end(); ++it){
@@ -244,7 +244,7 @@ void UI::printPurchases(MyTic* tic){
 
 }
 
-void UI::enterMenu(MyTic *tic, mainMenu options, subMenu timeOptions, subMenu zoneOptions){
+void UI::enterMenu(MyTic& tic, mainMenu options, subMenu timeOptions, subMenu zoneOptions){
 
 	bool hasQuit = false;
 
@@ -279,12 +279,12 @@ void UI::enterMenu(MyTic *tic, mainMenu options, subMenu timeOptions, subMenu zo
 		case MENU_INDEX_CHARGE:
 
 			addCredit(tic);
-			showCredit(*tic);
+			showCredit(tic);
 			break;
 
 		case MENU_INDEX_SHOW:
 
-			showCredit(*tic);
+			showCredit(tic);
 			break;
 
 		case MENU_INDEX_PRINT:
@@ -301,7 +301,7 @@ void UI::enterMenu(MyTic *tic, mainMenu options, subMenu timeOptions, subMenu zo
 
 	}
 
-	tic->clearPurchases();
+	tic.clearPurchases();
 	cout << MESSAGE_MENU_GOODBYE << endl;
 
 }

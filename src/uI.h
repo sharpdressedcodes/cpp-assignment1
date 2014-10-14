@@ -107,13 +107,13 @@ public:
 	void deleteMenu(mainMenu& options);
 	void deleteTimeMenu(subMenu& timeOptions);
 	void deleteZoneMenu(subMenu& zoneOptions);
-	void enterMenu(MyTic* tic, mainMenu options, subMenu timeOptions, subMenu zoneOptions);
+	void enterMenu(MyTic& tic, mainMenu options, subMenu timeOptions, subMenu zoneOptions);
 	subMenuOption enterTimeMenu(subMenu timeOptions);
 	subMenuOption enterZoneMenu(subMenu zoneOptions);
-	void showCredit(const MyTic tic);
-	void addCredit(MyTic* tic);
-	bool buyTicket(MyTic* tic, subMenu timeOptions, subMenu zoneOptions);
-	void printPurchases(MyTic* tic);
+	void showCredit(const MyTic& tic);
+	void addCredit(MyTic& tic);
+	bool buyTicket(MyTic& tic, subMenu timeOptions, subMenu zoneOptions);
+	void printPurchases(MyTic& tic);
 	bool validateTimeOption(const char option, subMenu timeOptions);
 	bool validateZoneOption(const char option, subMenu zoneOptions);
 	TravelPass* assignTravelPass(subMenuOption timeOption, subMenuOption zoneOption);

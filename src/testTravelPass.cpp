@@ -19,7 +19,7 @@
 int main(){
 
 	//Create MyTic object and use this object in the menu
-	MyTic *tic = new MyTic(MAX_TRAVELPASSES);
+	MyTic tic(MAX_TRAVELPASSES);
 	UI::mainMenu options;
 	UI::subMenu timeOptions;
 	UI::subMenu zoneOptions;
@@ -40,8 +40,6 @@ int main(){
 	//TwoHoursZone1 thz1;
 	//cin >> thz1;
 	//cout << thz1;
-
-	delete tic;
 
 	return EXIT_SUCCESS;
 
