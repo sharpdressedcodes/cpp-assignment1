@@ -1,28 +1,28 @@
-/*
- * myTic.cpp
- *
- *  Created on: 28/09/2014
- *      Author: greg
- */
+/****************************************************************************
+* CPT 323 - Object Oriented Programming in C++
+* Study Period 3 2014 Assignment #1 - "MelbourneConnect - RMIT" Ticketing System
+* Full Name        : Greg Kappatos
+* Student Number   : 3460969
+* Course Code      : CPT323
+* Program Code     : ?
+* Start up code provided by Robert T.McQuillan
+****************************************************************************/
 
 #include "myTic.h"
 
+float MyTic::MAX_LIMIT = 100;
+unsigned int MyTic::AMOUNT_DIVISOR = 5;
+
 MyTic::MyTic()
-: credit(0.0), limit(MAX_LIMIT), maxPasses(0) {
-	//
-}
+: credit(0.0), limit(MAX_LIMIT), maxPasses(0) {}
 
 MyTic::MyTic(int maxPasses_)
 	: credit(0), limit(MAX_LIMIT), maxPasses(maxPasses_){}
 
 MyTic::MyTic(float theCredit, float theLimit, int maxPasses_)
-: credit(theCredit), limit(theLimit), maxPasses(maxPasses_){
-	//
-}
+: credit(theCredit), limit(theLimit), maxPasses(maxPasses_){}
 
-MyTic::~MyTic(){
-	//
-}
+MyTic::~MyTic(){}
 
 float MyTic::getCredit() const {
 	return credit;
@@ -58,27 +58,22 @@ bool MyTic::addCredit(float amount){
 
 }
 
-void MyTic::buyPass(TravelPass* pass){
+bool MyTic::buyPass(TravelPass* pass){
+
+	if (purchases.size() >= maxPasses)
+		return false;
 
 	addCredit(-pass->getCost());
-	addPurchase(pass);
+	purchases.push_back(pass);
 
-}
-
-bool MyTic::addPurchase(TravelPass *pUnknown){
-
-	bool result = false;
-
-	if (purchases.size() < maxPasses){
-		purchases.push_back(pUnknown);
-		result = true;
-	}
-
-	return result;
+	return true;
 
 }
 
 void MyTic::clearPurchases(){
+
+	for (size_t i = 0; i < purchases.size(); i++)
+		delete purchases[i];
 
 	purchases.clear();
 

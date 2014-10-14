@@ -1,3 +1,13 @@
+/****************************************************************************
+* CPT 323 - Object Oriented Programming in C++
+* Study Period 3 2014 Assignment #1 - "MelbourneConnect - RMIT" Ticketing System
+* Full Name        : Greg Kappatos
+* Student Number   : 3460969
+* Course Code      : CPT323
+* Program Code     : ?
+* Start up code provided by Robert T.McQuillan
+****************************************************************************/
+
 //
 // travelPass.h
 //
@@ -7,10 +17,8 @@
 #ifndef __TRAVELPASS_H__
 #define __TRAVELPASS_H__
 
-
 #include <string>
 #include <iostream>
-//#include <sstream>
 #include <typeinfo>
 #include "utility.h"
 

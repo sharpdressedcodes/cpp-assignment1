@@ -1,3 +1,13 @@
+/****************************************************************************
+* CPT 323 - Object Oriented Programming in C++
+* Study Period 3 2014 Assignment #1 - "MelbourneConnect - RMIT" Ticketing System
+* Full Name        : Greg Kappatos
+* Student Number   : 3460969
+* Course Code      : CPT323
+* Program Code     : ?
+* Start up code provided by Robert T.McQuillan
+****************************************************************************/
+
 //
 //myTic.h
 //
@@ -9,12 +19,17 @@
 
 /*TO DO  REQUIRED HEADER FILES AND NAMESPACES*/
 #include "travelPass.h"
+#include "twoHoursZone1.h"
+#include "twoHoursZone1And2.h"
+#include "allDayZone1.h"
+#include "allDayZone1And2.h"
 #include <vector>
 using std::vector;
 
-class MyTic
-{
+class MyTic {
+
 private:
+
   float credit;
   float limit;
   /*TO DO ANY FURTHER ATTRIBUTES AND CONSTANTS*/
@@ -22,8 +37,9 @@ private:
   vector<TravelPass*> purchases;
 
 public:
-  static const float MAX_LIMIT = 100.0;
-  static const unsigned int AMOUNT_DIVISOR = 5;
+
+  static float MAX_LIMIT;
+  static unsigned int AMOUNT_DIVISOR;
 
   MyTic();
   MyTic(int maxPasses_);
@@ -37,18 +53,16 @@ public:
 
   unsigned int getMaxPasses() const;
   void setMaxPasses(unsigned int newValue);
-  //MAX_TRAVELPASSES
 
   /*TO DO  REQUIRED FUNCTIONS REQUIRED FOR PURCHASING A TRAVEL PASS */
 
   bool addCredit(float amount);
-  void buyPass(TravelPass* pass);
-
-  bool addPurchase(TravelPass *pUnknown);
+  bool buyPass(TravelPass* pass);
   void clearPurchases();
   unsigned int getPurchaseCount() const;
   vector<TravelPass*> getPurchases() const;
   float getPurchaseTotal() const;
+
 };
 
 #endif
