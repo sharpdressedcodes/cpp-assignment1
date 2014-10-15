@@ -19,7 +19,11 @@ AllDayZone1And2::AllDayZone1And2()
 
 AllDayZone1And2::~AllDayZone1And2(){}
 
-void AllDayZone1And2::input(){}
+void AllDayZone1And2::input(){
+
+	cin >> *this;
+
+}
 
 void AllDayZone1And2::print(){
 

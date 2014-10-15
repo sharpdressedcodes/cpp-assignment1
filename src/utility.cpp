@@ -33,6 +33,8 @@ int Utility::getIntFromConsole(const unsigned int min, const unsigned int max, c
 		string result;
 
 		cout << message;
+
+		cin.clear();
 		getline(cin, result);
 
 		if (cin.fail() || !isNumeric(result)){
@@ -66,6 +68,8 @@ string Utility::getStringFromConsole(const unsigned int min, const unsigned int 
 	while (!isValid){
 
 		cout << message;
+
+		cin.clear();
 		getline(cin, result);
 
 		if (cin.fail() || result.length() < min || result.length() > max){

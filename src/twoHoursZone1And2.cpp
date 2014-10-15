@@ -19,7 +19,11 @@ TwoHoursZone1And2::TwoHoursZone1And2()
 
 TwoHoursZone1And2::~TwoHoursZone1And2(){}
 
-void TwoHoursZone1And2::input(){}
+void TwoHoursZone1And2::input(){
+
+	cin >> *this;
+
+}
 
 void TwoHoursZone1And2::print(){
 

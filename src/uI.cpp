@@ -207,6 +207,7 @@ bool UI::buyTicket(MyTic& tic, subMenu timeOptions, subMenu zoneOptions){
 
 				if (cost > tic.getCredit()){
 					cerr << MESSAGE_NOT_ENOUGH_CREDIT << endl;
+					delete pass;
 				} else {
 					if (tic.buyPass(pass)){
 						cout << YOU_PURCHASED_PREFIX;
@@ -214,6 +215,7 @@ bool UI::buyTicket(MyTic& tic, subMenu timeOptions, subMenu zoneOptions){
 						showCredit(tic);
 					} else {
 						cerr << MESSAGE_MAX_PASSES << endl;
+						delete pass;
 					}
 				}
 
