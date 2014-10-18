@@ -109,7 +109,8 @@ float MyTic::getPurchaseTotal() const {
 
 	float result = 0;
 
-	for (vector<TravelPass*>::const_iterator it = purchases.begin(); it != purchases.end(); ++it)
+	for (vector<TravelPass*>::const_iterator it = purchases.begin();
+			it != purchases.end(); ++it)
 		result += (*it)->getCost();
 
 	return result;

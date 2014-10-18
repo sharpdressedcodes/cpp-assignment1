@@ -58,7 +58,8 @@ string TwoHoursZone1::toString(){
 
 	stringstream ss;
 
-	ss << this->length << " pass for " << this->zones << ", costing $" << Utility::floatToString(this->cost, 2) << endl;
+	ss << this->length << " pass for " << this->zones << ", costing $"
+		<< Utility::floatToString(this->cost, 2) << endl;
 
 	return ss.str();
 

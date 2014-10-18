@@ -29,14 +29,17 @@ string UI::MESSAGE_CANNOT_ADD_CREDIT = "You cannot add anymore credit!";
 string UI::MESSAGE_ADD_CREDIT = "How much do you want to add: ";
 string UI::MESSAGE_CREDIT_OVER = "Sorry, the maximum allowed credit is $";
 string UI::MESSAGE_CREDIT_DIVISOR = "Sorry, you can only add multiples of $";
-string UI::MESSAGE_NOT_ENOUGH_CREDIT = "Sorry, you don't have enough credit for that selection.";
+string UI::MESSAGE_NOT_ENOUGH_CREDIT =
+		"Sorry, you don't have enough credit for that selection.";
 string UI::MESSAGE_NO_PURCHASES = "No purchases found.\n\n";
 string UI::MESSAGE_NO_CREDIT = "You don't have any credit!";
-string UI::MESSAGE_MAX_PASSES = "You have reached the maximum number of Travel Passes";
+string UI::MESSAGE_MAX_PASSES =
+		"You have reached the maximum number of Travel Passes";
 string UI::MESSAGE_MENU_WELCOME = "Welcome to MyTic!";
 string UI::MESSAGE_MENU_OPTION = "Choose an option:";
 string UI::MESSAGE_MENU_SELECTION = "Please make a selection: ";
-string UI::MESSAGE_MENU_INVALID_SELECTION = "Sorry, that is an invalid option!";
+string UI::MESSAGE_MENU_INVALID_SELECTION =
+		"Sorry, that is an invalid option!";
 string UI::MESSAGE_MENU_GOODBYE = "Goodbye!";
 string UI::MESSAGE_MENU_TIME_PERIOD = "\nWhat time period:";
 string UI::MESSAGE_MENU_YOUR_SELECTION = "Your selection: ";
@@ -175,7 +178,8 @@ void UI::deleteZoneMenu(subMenu& zoneOptions){
 
 void UI::showCredit(const MyTic& tic) {
 
-	cout << CREDIT_PREFIX << Utility::floatToString(tic.getCredit(), 2) << "\n\n";
+	cout << CREDIT_PREFIX
+		<< Utility::floatToString(tic.getCredit(), 2) << "\n\n";
 
 }
 
@@ -188,7 +192,8 @@ void UI::addCredit(MyTic& tic){
 	int charge = 0;
 	stringstream ss;
 
-	ss << MESSAGE_CREDIT_OVER << Utility::floatToString((float)tic.getLimit(), 2);
+	ss << MESSAGE_CREDIT_OVER
+		<< Utility::floatToString((float)tic.getLimit(), 2);
 
 	while (!chargeValid){
 
@@ -198,7 +203,13 @@ void UI::addCredit(MyTic& tic){
 			break;
 		}
 
-		charge = Utility::getIntFromConsole(MyTic::AMOUNT_DIVISOR, tic.getLimit(), MESSAGE_ADD_CREDIT, ss.str(), false);
+		charge = Utility::getIntFromConsole(
+			MyTic::AMOUNT_DIVISOR,
+			tic.getLimit(),
+			MESSAGE_ADD_CREDIT,
+			ss.str(),
+			false
+		);
 
 		// Will this blow their budget?
 		if (tic.getCredit() + charge > tic.getLimit()){
@@ -206,7 +217,9 @@ void UI::addCredit(MyTic& tic){
 
 		// Test for divisor
 		} else if (charge % MyTic::AMOUNT_DIVISOR != 0){
-			cerr << MESSAGE_CREDIT_DIVISOR << Utility::floatToString((float)MyTic::AMOUNT_DIVISOR, 2) << endl;
+			cerr << MESSAGE_CREDIT_DIVISOR
+				<< Utility::floatToString((float)MyTic::AMOUNT_DIVISOR, 2)
+				<< endl;
 
 		} else {
 			chargeValid = true;
@@ -284,10 +297,13 @@ void UI::printPurchases(MyTic& tic){
 
 	vector<TravelPass*> purchases = tic.getPurchases();
 
-	cout << PURCHASES_PREFIX << Utility::floatToString(tic.getPurchaseTotal(), 2) << PURCHASES_SUFFIX;
+	cout << PURCHASES_PREFIX
+			<< Utility::floatToString(tic.getPurchaseTotal(), 2)
+			<< PURCHASES_SUFFIX;
 
 	if (purchases.size() > 0){
-		for (vector<TravelPass*>::const_iterator it = purchases.begin(); it != purchases.end(); ++it){
+		for (vector<TravelPass*>::const_iterator it = purchases.begin();
+				it != purchases.end(); ++it){
 			cout << PURCHASED_PREFIX;
 			(*it)->print();
 		}
@@ -302,7 +318,8 @@ void UI::printPurchases(MyTic& tic){
  * Main Menu.
  * Present the user with a set of main options.
  */
-void UI::enterMenu(MyTic& tic, mainMenu options, subMenu timeOptions, subMenu zoneOptions){
+void UI::enterMenu(MyTic& tic, mainMenu options,
+		subMenu timeOptions, subMenu zoneOptions){
 
 	bool hasQuit = false;
 
@@ -315,7 +332,8 @@ void UI::enterMenu(MyTic& tic, mainMenu options, subMenu timeOptions, subMenu zo
 		cout << MESSAGE_MENU_OPTION << endl;
 
 		// Iterate over the main menu structs and display each option.
-		for (mainMenu::iterator it = options.begin(); it != options.end(); ++it){
+		for (mainMenu::iterator it = options.begin();
+				it != options.end(); ++it){
 			mainMenuOption option = (*it);
 			// Always display the quit option last.
 			if (!option->isQuit)
@@ -327,7 +345,13 @@ void UI::enterMenu(MyTic& tic, mainMenu options, subMenu timeOptions, subMenu zo
 		if (quitOption)
 			cout << quitOption->index << ". " << quitOption->text << endl;
 
-		int selection = Utility::getIntFromConsole(MENU_INDEX_QUIT, MAX_MENU - 1, MESSAGE_MENU_SELECTION, MESSAGE_MENU_INVALID_SELECTION, false);
+		int selection = Utility::getIntFromConsole(
+			MENU_INDEX_QUIT,
+			MAX_MENU - 1,
+			MESSAGE_MENU_SELECTION,
+			MESSAGE_MENU_INVALID_SELECTION,
+			false
+		);
 
 		switch (selection){
 
@@ -383,7 +407,8 @@ UI::subMenuOption UI::enterTimeMenu(subMenu timeOptions){
 		cout << MESSAGE_MENU_TIME_PERIOD << endl;
 
 		// Iterate over the sub menu structs and display each option.
-		for (subMenu::iterator it = timeOptions.begin(); it != timeOptions.end(); ++it){
+		for (subMenu::iterator it = timeOptions.begin();
+				it != timeOptions.end(); ++it){
 			subMenuOption option = (*it);
 			// Always display the quit option last.
 			if (!option->isQuit)
@@ -400,7 +425,13 @@ UI::subMenuOption UI::enterTimeMenu(subMenu timeOptions){
 
 		do {
 			validSelection = false;
-			selection = Utility::getStringFromConsole(1, 1, MESSAGE_MENU_YOUR_SELECTION, MESSAGE_MENU_INVALID_SELECTION, false);
+			selection = Utility::getStringFromConsole(
+				1,
+				1,
+				MESSAGE_MENU_YOUR_SELECTION,
+				MESSAGE_MENU_INVALID_SELECTION,
+				false
+			);
 			// Validate the selected option.
 			if (!selection.empty())
 				validSelection = validateTimeOption(selection[0], timeOptions);
@@ -409,7 +440,8 @@ UI::subMenuOption UI::enterTimeMenu(subMenu timeOptions){
 		} while (!validSelection);
 
 		// Iterate over the sub menu structs to find which option was selected.
-		for (subMenu::iterator it = timeOptions.begin(); it != timeOptions.end(); ++it){
+		for (subMenu::iterator it = timeOptions.begin();
+				it != timeOptions.end(); ++it){
 
 			subMenuOption option = (*it);
 
@@ -448,7 +480,8 @@ UI::subMenuOption UI::enterZoneMenu(subMenu zoneOptions){
 		cout << MESSAGE_MENU_ZONE << endl;
 
 		// Iterate over the sub menu structs and display each option.
-		for (subMenu::iterator it = zoneOptions.begin(); it != zoneOptions.end(); ++it){
+		for (subMenu::iterator it = zoneOptions.begin();
+				it != zoneOptions.end(); ++it){
 			subMenuOption option = (*it);
 			// Always display the quit option last.
 			if (!option->isQuit)
@@ -465,7 +498,13 @@ UI::subMenuOption UI::enterZoneMenu(subMenu zoneOptions){
 
 		do {
 			validSelection = false;
-			selection = Utility::getStringFromConsole(1, 1, MESSAGE_MENU_YOUR_SELECTION, MESSAGE_MENU_INVALID_SELECTION, false);
+			selection = Utility::getStringFromConsole(
+				1,
+				1,
+				MESSAGE_MENU_YOUR_SELECTION,
+				MESSAGE_MENU_INVALID_SELECTION,
+				false
+			);
 			// Validate the selected option.
 			if (!selection.empty())
 				validSelection = validateZoneOption(selection[0], zoneOptions);
@@ -474,7 +513,8 @@ UI::subMenuOption UI::enterZoneMenu(subMenu zoneOptions){
 		} while (!validSelection);
 
 		// Iterate over the sub menu structs to find which option was selected.
-		for (subMenu::iterator it = zoneOptions.begin(); it != zoneOptions.end(); ++it){
+		for (subMenu::iterator it = zoneOptions.begin();
+				it != zoneOptions.end(); ++it){
 
 			subMenuOption option = (*it);
 
@@ -504,7 +544,8 @@ bool UI::validateTimeOption(const char option, subMenu timeOptions){
 
 	bool result = false;
 
-	for (subMenu::iterator it = timeOptions.begin(); it != timeOptions.end(); ++it){
+	for (subMenu::iterator it = timeOptions.begin();
+			it != timeOptions.end(); ++it){
 		if ((*it)->index == option){
 			result = true;
 			break;
@@ -522,7 +563,8 @@ bool UI::validateZoneOption(const char option, subMenu zoneOptions){
 
 	bool result = false;
 
-	for (subMenu::iterator it = zoneOptions.begin(); it != zoneOptions.end(); ++it){
+	for (subMenu::iterator it = zoneOptions.begin();
+			it != zoneOptions.end(); ++it){
 		if ((*it)->index == option){
 			result = true;
 			break;
@@ -536,7 +578,8 @@ bool UI::validateZoneOption(const char option, subMenu zoneOptions){
 /*
  * Assigns a generic TravelPass pointer based on time and zone.
  */
-TravelPass* UI::assignTravelPass(subMenuOption timeOption, subMenuOption zoneOption){
+TravelPass* UI::assignTravelPass(subMenuOption timeOption,
+		subMenuOption zoneOption){
 
 	TravelPass* pass = NULL;
 

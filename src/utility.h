@@ -43,8 +43,12 @@ public:
 	/*
 	 * Custom functions.
 	 */
-	static int getIntFromConsole(const unsigned int min, const unsigned int max, const string& message, const string& errorMessage, bool allowEmpty);
-	static string getStringFromConsole(const unsigned int min, const unsigned int max, const string& message, const string& errorMessage, bool allowEmpty);
+	static int getIntFromConsole(const unsigned int min,
+			const unsigned int max, const string& message,
+			const string& errorMessage, bool allowEmpty);
+	static string getStringFromConsole(const unsigned int min,
+			const unsigned int max, const string& message,
+			const string& errorMessage, bool allowEmpty);
 	static int stringToInt(const string& str);
 	static string intToString(const int number);
 	static string floatToString(const float number, const int precision);

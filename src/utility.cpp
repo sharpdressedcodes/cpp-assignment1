@@ -26,7 +26,9 @@ void Utility::clearInputBuffer(){
 /*
  * Ask the user for a number. Supports minimum and maximum values.
  */
-int Utility::getIntFromConsole(const unsigned int min, const unsigned int max, const string& message, const string& errorMessage, bool allowEmpty = true){
+int Utility::getIntFromConsole(const unsigned int min,
+		const unsigned int max, const string& message,
+		const string& errorMessage, bool allowEmpty = true){
 
 	int i = -1;
 	bool isValid = false;
@@ -66,7 +68,9 @@ int Utility::getIntFromConsole(const unsigned int min, const unsigned int max, c
 /*
  * Ask the user for a string. Supports minimum and maximum lengths.
  */
-string Utility::getStringFromConsole(const unsigned int min, const unsigned int max, const string& message, const string& errorMessage, bool allowEmpty = true){
+string Utility::getStringFromConsole(const unsigned int min,
+		const unsigned int max, const string& message,
+		const string& errorMessage, bool allowEmpty = true){
 
 	bool isValid = false;
 	string result;
@@ -144,8 +148,10 @@ bool Utility::isNumeric(const string& str) {
 
 	bool result = true;
 
-	for (string::const_iterator it = str.begin(); it != str.end() && result; ++it)
+	for (string::const_iterator it = str.begin();
+			it != str.end() && result; ++it){
 		result = isDigit((*it));
+	}
 
 	return !str.empty() && result;
 

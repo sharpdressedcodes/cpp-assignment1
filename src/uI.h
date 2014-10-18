@@ -120,7 +120,8 @@ public:
 	void deleteMenu(mainMenu& options);
 	void deleteTimeMenu(subMenu& timeOptions);
 	void deleteZoneMenu(subMenu& zoneOptions);
-	void enterMenu(MyTic& tic, mainMenu options, subMenu timeOptions, subMenu zoneOptions);
+	void enterMenu(MyTic& tic, mainMenu options,
+			subMenu timeOptions, subMenu zoneOptions);
 	subMenuOption enterTimeMenu(subMenu timeOptions);
 	subMenuOption enterZoneMenu(subMenu zoneOptions);
 	void showCredit(const MyTic& tic);
@@ -129,7 +130,8 @@ public:
 	void printPurchases(MyTic& tic);
 	bool validateTimeOption(const char option, subMenu timeOptions);
 	bool validateZoneOption(const char option, subMenu zoneOptions);
-	TravelPass* assignTravelPass(subMenuOption timeOption, subMenuOption zoneOption);
+	TravelPass* assignTravelPass(subMenuOption timeOption,
+			subMenuOption zoneOption);
 
 };
 
