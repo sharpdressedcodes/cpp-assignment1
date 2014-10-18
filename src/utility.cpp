@@ -23,6 +23,9 @@ void Utility::clearInputBuffer(){
 
 }
 
+/*
+ * Ask the user for a number. Supports minimum and maximum values.
+ */
 int Utility::getIntFromConsole(const unsigned int min, const unsigned int max, const string& message, const string& errorMessage, bool allowEmpty = true){
 
 	int i = -1;
@@ -60,6 +63,9 @@ int Utility::getIntFromConsole(const unsigned int min, const unsigned int max, c
 
 }
 
+/*
+ * Ask the user for a string. Supports minimum and maximum lengths.
+ */
 string Utility::getStringFromConsole(const unsigned int min, const unsigned int max, const string& message, const string& errorMessage, bool allowEmpty = true){
 
 	bool isValid = false;
@@ -87,6 +93,9 @@ string Utility::getStringFromConsole(const unsigned int min, const unsigned int 
 
 }
 
+/*
+ * Convert a numeric string to an integer.
+ */
 int Utility::stringToInt(const string& str){
 
 	long int result;
@@ -98,6 +107,9 @@ int Utility::stringToInt(const string& str){
 
 }
 
+/*
+ * Convert an integer to a string.
+ */
 string Utility::intToString(const int number){
 
 	std::ostringstream ss;
@@ -107,6 +119,9 @@ string Utility::intToString(const int number){
 
 }
 
+/*
+ * Convert a float to a string.
+ */
 string Utility::floatToString(const float number, const int precision = -1){
 
 	std::stringstream ss;
@@ -122,6 +137,9 @@ string Utility::floatToString(const float number, const int precision = -1){
 
 }
 
+/*
+ * Test if all characters in a string are digits.
+ */
 bool Utility::isNumeric(const string& str) {
 
 	bool result = true;
@@ -133,6 +151,9 @@ bool Utility::isNumeric(const string& str) {
 
 }
 
+/*
+ * Test if a character is a digit.
+ */
 bool Utility::isDigit(const char c){
 
 	bool exists = false;

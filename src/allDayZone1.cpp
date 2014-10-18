@@ -19,6 +19,9 @@ AllDayZone1::AllDayZone1()
 
 AllDayZone1::~AllDayZone1(){}
 
+/*
+ * Shortcut for Task C. This does not validate user input.
+ */
 void AllDayZone1::input(){
 
 	cin >> *this;
@@ -31,6 +34,12 @@ void AllDayZone1::print(){
 
 }
 
+/*
+ * I couldn't really see a use for this function. I think it should be
+ * static because if you have to call this method from an already created
+ * AlLDayZone1 instance, then you should already know what it is.
+ * Calling it statically makes more sense.
+ */
 bool AllDayZone1::isTravelPass(TravelPass& pUnknown){
 
 	AllDayZone1* test = dynamic_cast<AllDayZone1*>(&pUnknown);
@@ -42,6 +51,9 @@ bool AllDayZone1::isTravelPass(TravelPass& pUnknown){
 
 }
 
+/*
+ * Output a string representing this instance.
+ */
 string AllDayZone1::toString(){
 
 	stringstream ss;
@@ -52,6 +64,9 @@ string AllDayZone1::toString(){
 
 }
 
+/*
+ * Task C - C3.
+ */
 ostream& operator<<(ostream& stream, AllDayZone1& pass){
 
 	stream << pass.toString();
@@ -60,6 +75,9 @@ ostream& operator<<(ostream& stream, AllDayZone1& pass){
 
 }
 
+/*
+ * Task C - C3. This does not validate user input.
+ */
 istream& operator>>(istream& stream, AllDayZone1& pass){
 
 	cout << "Enter length: ";

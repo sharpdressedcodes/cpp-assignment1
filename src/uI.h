@@ -47,10 +47,18 @@ enum MENU_ZONE_OPTIONS {
 	MAX_MENU_ZONE = 3
 };
 
+/*
+ * User Interface (UI).
+ * This class is implemented as a Singleton because it makes
+ * sense to have one class controlling the UI.
+ */
 class UI {
 
 private:
 
+	/*
+	 * Hide constructors and self instance variable.
+	 */
 	UI(){}
 	UI(UI const&){}
 	UI& operator=(UI const&);//{}
@@ -88,9 +96,14 @@ private:
 
 public:
 
+	/*
+	 * Since there is 1 main menu and 2 sub menus and they don't differ much
+	 * it makes sense to use a template. For now, this swaps int and char.
+	 */
 	template <typename T>
 	struct menuOptions {
 		T index;
+		unsigned int subIndex; // only used in subMenus
 		string text;
 		bool isQuit;
 	};

@@ -44,6 +44,8 @@ string UI::MESSAGE_MENU_ZONE = "\nWhich zone:";
 
 UI *UI::instance(){
 
+	//Only create 1 instance, then keep returning that each time.
+
 	if (!m_instance)
 		m_instance = new UI();
 
@@ -51,6 +53,9 @@ UI *UI::instance(){
 
 }
 
+/*
+ * Load the main menu variables into the struct.
+ */
 void UI::loadMenu(mainMenu& options){
 
 	int i = 0;
@@ -78,6 +83,9 @@ void UI::loadMenu(mainMenu& options){
 
 }
 
+/*
+ * Load the time submenu variables into the struct.
+ */
 void UI::loadTimeMenu(subMenu& timeOptions){
 
 	int i = 0;
@@ -88,17 +96,23 @@ void UI::loadTimeMenu(subMenu& timeOptions){
 	i = 0;
 
 	timeOptions[i]->index = MENU_INDEX_TIME_2HOURS;
+	timeOptions[i]->subIndex = i;
 	timeOptions[i++]->text = TwoHoursZone1::DEFAULT_LENGTH;
 
 	timeOptions[i]->index = MENU_INDEX_TIME_DAY;
+	timeOptions[i]->subIndex = i;
 	timeOptions[i++]->text = AllDayZone1::DEFAULT_LENGTH;
 
 	timeOptions[i]->isQuit = true;
 	timeOptions[i]->index = MENU_INDEX_TIME_CANCEL;
+	timeOptions[i]->subIndex = i;
 	timeOptions[i++]->text = MENU_STRING_CANCEL;
 
 }
 
+/*
+ * Load the zone submenu variables into the struct.
+ */
 void UI::loadZoneMenu(subMenu& zoneOptions){
 
 	int i = 0;
@@ -109,41 +123,53 @@ void UI::loadZoneMenu(subMenu& zoneOptions){
 	i = 0;
 
 	zoneOptions[i]->index = MENU_INDEX_ZONE_1;
+	zoneOptions[i]->subIndex = i;
 	zoneOptions[i++]->text = AllDayZone1::DEFAULT_ZONES;
 
 	zoneOptions[i]->index = MENU_INDEX_ZONE_1AND2;
+	zoneOptions[i]->subIndex = i;
 	zoneOptions[i++]->text = AllDayZone1And2::DEFAULT_ZONES;
 
 	zoneOptions[i]->isQuit = true;
 	zoneOptions[i]->index = MENU_INDEX_ZONE_CANCEL;
+	zoneOptions[i]->subIndex = i;
 	zoneOptions[i++]->text = MENU_STRING_CANCEL;
 
 }
 
+/*
+ * Remove the main menu structs from memory.
+ */
 void UI::deleteMenu(mainMenu& options){
 
-	for (mainMenu::iterator it = options.begin(); it != options.end(); ++it){
-		mainMenuOption option = (*it);
-		delete option;
-	}
+	for (size_t i = 0; i < options.size(); i++)
+		delete options[i];
+
+	options.clear();
 
 }
 
+/*
+ * Remove the time submenu structs from memory.
+ */
 void UI::deleteTimeMenu(subMenu& timeOptions){
 
-	for (subMenu::iterator it = timeOptions.begin(); it != timeOptions.end(); ++it){
-		subMenuOption option = (*it);
-		delete option;
-	}
+	for (size_t i = 0; i < timeOptions.size(); i++)
+		delete timeOptions[i];
+
+	timeOptions.clear();
 
 }
 
+/*
+ * Remove the zone submenu structs from memory.
+ */
 void UI::deleteZoneMenu(subMenu& zoneOptions){
 
-	for (subMenu::iterator it = zoneOptions.begin(); it != zoneOptions.end(); ++it){
-		subMenuOption option = (*it);
-		delete option;
-	}
+	for (size_t i = 0; i < zoneOptions.size(); i++)
+		delete zoneOptions[i];
+
+	zoneOptions.clear();
 
 }
 
@@ -153,41 +179,55 @@ void UI::showCredit(const MyTic& tic) {
 
 }
 
+/*
+ * Attempt to add credit to the MyTic object.
+ */
 void UI::addCredit(MyTic& tic){
 
 	bool chargeValid = false;
 	int charge = 0;
+	stringstream ss;
+
+	ss << MESSAGE_CREDIT_OVER << Utility::floatToString((float)tic.getLimit(), 2);
 
 	while (!chargeValid){
+
+		// Don't proceed if they have full credit.
 		if (tic.getCredit() >= tic.getLimit()){
 			cerr << MESSAGE_CANNOT_ADD_CREDIT << endl;
 			break;
 		}
 
-		stringstream ss;
-		ss << MESSAGE_CREDIT_OVER << Utility::floatToString((float)tic.getLimit(), 2);
-		charge = Utility::getIntFromConsole(0, tic.getLimit(), MESSAGE_ADD_CREDIT, ss.str(), false);
+		charge = Utility::getIntFromConsole(MyTic::AMOUNT_DIVISOR, tic.getLimit(), MESSAGE_ADD_CREDIT, ss.str(), false);
 
-		if (charge > 0){
-			if (tic.getCredit() + charge > tic.getLimit()){
-				cerr << ss.str() << endl;
-			} else if (charge % MyTic::AMOUNT_DIVISOR != 0){
-				cerr << MESSAGE_CREDIT_DIVISOR << Utility::floatToString((float)MyTic::AMOUNT_DIVISOR, 2) << endl;
-			} else {
-				chargeValid = true;
-				tic.addCredit(charge);
-			}
+		// Will this blow their budget?
+		if (tic.getCredit() + charge > tic.getLimit()){
+			cerr << ss.str() << endl;
+
+		// Test for divisor
+		} else if (charge % MyTic::AMOUNT_DIVISOR != 0){
+			cerr << MESSAGE_CREDIT_DIVISOR << Utility::floatToString((float)MyTic::AMOUNT_DIVISOR, 2) << endl;
+
+		} else {
+			chargeValid = true;
+			tic.addCredit(charge);
 		}
+
 	}
 
 }
 
+/*
+ * Attempt to buy a ticket. The user can press 'c' for Cancel at any time
+ * throughout this process.
+ */
 bool UI::buyTicket(MyTic& tic, subMenu timeOptions, subMenu zoneOptions){
 
 	bool result = false;
 	subMenuOption timeOption = NULL;
 	subMenuOption zoneOption = NULL;
 
+	// Don't proceed if they are broke.
 	if (tic.getCredit() == 0){
 		cerr << MESSAGE_NO_CREDIT << endl;
 		return false;
@@ -200,23 +240,32 @@ bool UI::buyTicket(MyTic& tic, subMenu timeOptions, subMenu zoneOptions){
 
 		if (zoneOption != NULL){
 
+			// Assign a generic TravelPass pointer.
 			TravelPass *pass = assignTravelPass(timeOption, zoneOption);
 			if (pass != NULL){
 
 				float cost = pass->getCost();
 
+				// Make sure they have enough credit for this purchase.
 				if (cost > tic.getCredit()){
 					cerr << MESSAGE_NOT_ENOUGH_CREDIT << endl;
 					delete pass;
+
 				} else {
+
+					// The MyTic::buyPass() method will check if the user
+					// can buy any more passes.
 					if (tic.buyPass(pass)){
 						cout << YOU_PURCHASED_PREFIX;
 						pass->print();
 						showCredit(tic);
+
+					// The user has reached the max number of passes allowed.
 					} else {
 						cerr << MESSAGE_MAX_PASSES << endl;
 						delete pass;
 					}
+
 				}
 
 			}
@@ -228,6 +277,9 @@ bool UI::buyTicket(MyTic& tic, subMenu timeOptions, subMenu zoneOptions){
 
 }
 
+/*
+ * Iterates over the purchases vector and prints each purchase.
+ */
 void UI::printPurchases(MyTic& tic){
 
 	vector<TravelPass*> purchases = tic.getPurchases();
@@ -246,6 +298,10 @@ void UI::printPurchases(MyTic& tic){
 
 }
 
+/*
+ * Main Menu.
+ * Present the user with a set of main options.
+ */
 void UI::enterMenu(MyTic& tic, mainMenu options, subMenu timeOptions, subMenu zoneOptions){
 
 	bool hasQuit = false;
@@ -258,8 +314,10 @@ void UI::enterMenu(MyTic& tic, mainMenu options, subMenu timeOptions, subMenu zo
 
 		cout << MESSAGE_MENU_OPTION << endl;
 
+		// Iterate over the main menu structs and display each option.
 		for (mainMenu::iterator it = options.begin(); it != options.end(); ++it){
 			mainMenuOption option = (*it);
+			// Always display the quit option last.
 			if (!option->isQuit)
 				cout << option->index << ". " << option->text << endl;
 			else
@@ -303,11 +361,17 @@ void UI::enterMenu(MyTic& tic, mainMenu options, subMenu timeOptions, subMenu zo
 
 	}
 
+	// Clean memory.
 	tic.clearPurchases();
 	cout << MESSAGE_MENU_GOODBYE << endl;
 
 }
 
+/*
+ * Time Sub Menu.
+ * Present the user with a set of sub options to select a ticket type
+ * based on time.
+ */
 UI::subMenuOption UI::enterTimeMenu(subMenu timeOptions){
 
 	bool hasQuit = false;
@@ -318,8 +382,10 @@ UI::subMenuOption UI::enterTimeMenu(subMenu timeOptions){
 
 		cout << MESSAGE_MENU_TIME_PERIOD << endl;
 
+		// Iterate over the sub menu structs and display each option.
 		for (subMenu::iterator it = timeOptions.begin(); it != timeOptions.end(); ++it){
 			subMenuOption option = (*it);
+			// Always display the quit option last.
 			if (!option->isQuit)
 				cout << option->index << ") " << option->text << endl;
 			else
@@ -335,26 +401,28 @@ UI::subMenuOption UI::enterTimeMenu(subMenu timeOptions){
 		do {
 			validSelection = false;
 			selection = Utility::getStringFromConsole(1, 1, MESSAGE_MENU_YOUR_SELECTION, MESSAGE_MENU_INVALID_SELECTION, false);
+			// Validate the selected option.
 			if (!selection.empty())
 				validSelection = validateTimeOption(selection[0], timeOptions);
 			if (!validSelection)
 				cerr << MESSAGE_MENU_INVALID_SELECTION << endl;
 		} while (!validSelection);
 
-		switch (selection[0]){
+		// Iterate over the sub menu structs to find which option was selected.
+		for (subMenu::iterator it = timeOptions.begin(); it != timeOptions.end(); ++it){
 
-		case MENU_INDEX_TIME_2HOURS:
+			subMenuOption option = (*it);
 
-			return timeOptions[0];
+			if (selection[0] == option->index){
 
-		case MENU_INDEX_TIME_DAY:
+				if (option->index == MENU_INDEX_TIME_CANCEL){
+					hasQuit = true;
+					break;
+				} else {
+					return timeOptions[option->subIndex];
+				}
 
-			return timeOptions[1];
-
-		case MENU_INDEX_TIME_CANCEL:
-
-			hasQuit = true;
-			break;
+			}
 
 		}
 
@@ -364,6 +432,11 @@ UI::subMenuOption UI::enterTimeMenu(subMenu timeOptions){
 
 }
 
+/*
+ * Zone Sub Menu.
+ * Present the user with a set of sub options to select a ticket type
+ * based on zone.
+ */
 UI::subMenuOption UI::enterZoneMenu(subMenu zoneOptions){
 
 	bool hasQuit = false;
@@ -374,8 +447,10 @@ UI::subMenuOption UI::enterZoneMenu(subMenu zoneOptions){
 
 		cout << MESSAGE_MENU_ZONE << endl;
 
+		// Iterate over the sub menu structs and display each option.
 		for (subMenu::iterator it = zoneOptions.begin(); it != zoneOptions.end(); ++it){
 			subMenuOption option = (*it);
+			// Always display the quit option last.
 			if (!option->isQuit)
 				cout << option->index << ") " << option->text << endl;
 			else
@@ -391,26 +466,28 @@ UI::subMenuOption UI::enterZoneMenu(subMenu zoneOptions){
 		do {
 			validSelection = false;
 			selection = Utility::getStringFromConsole(1, 1, MESSAGE_MENU_YOUR_SELECTION, MESSAGE_MENU_INVALID_SELECTION, false);
+			// Validate the selected option.
 			if (!selection.empty())
 				validSelection = validateZoneOption(selection[0], zoneOptions);
 			if (!validSelection)
 				cerr << MESSAGE_MENU_INVALID_SELECTION << endl;
 		} while (!validSelection);
 
-		switch (selection[0]){
+		// Iterate over the sub menu structs to find which option was selected.
+		for (subMenu::iterator it = zoneOptions.begin(); it != zoneOptions.end(); ++it){
 
-		case MENU_INDEX_ZONE_1:
+			subMenuOption option = (*it);
 
-			return zoneOptions[0];
+			if (selection[0] == option->index){
 
-		case MENU_INDEX_ZONE_1AND2:
+				if (option->index == MENU_INDEX_ZONE_CANCEL){
+					hasQuit = true;
+					break;
+				} else {
+					return zoneOptions[option->subIndex];
+				}
 
-			return zoneOptions[1];
-
-		case MENU_INDEX_ZONE_CANCEL:
-
-			hasQuit = true;
-			break;
+			}
 
 		}
 
@@ -420,6 +497,9 @@ UI::subMenuOption UI::enterZoneMenu(subMenu zoneOptions){
 
 }
 
+/*
+ * Validates the time sub menu option.
+ */
 bool UI::validateTimeOption(const char option, subMenu timeOptions){
 
 	bool result = false;
@@ -435,6 +515,9 @@ bool UI::validateTimeOption(const char option, subMenu timeOptions){
 
 }
 
+/*
+ * Validates the zone sub menu option.
+ */
 bool UI::validateZoneOption(const char option, subMenu zoneOptions){
 
 	bool result = false;
@@ -450,6 +533,9 @@ bool UI::validateZoneOption(const char option, subMenu zoneOptions){
 
 }
 
+/*
+ * Assigns a generic TravelPass pointer based on time and zone.
+ */
 TravelPass* UI::assignTravelPass(subMenuOption timeOption, subMenuOption zoneOption){
 
 	TravelPass* pass = NULL;

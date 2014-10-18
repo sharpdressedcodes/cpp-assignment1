@@ -19,6 +19,9 @@ TwoHoursZone1And2::TwoHoursZone1And2()
 
 TwoHoursZone1And2::~TwoHoursZone1And2(){}
 
+/*
+ * Shortcut for Task C. This does not validate user input.
+ */
 void TwoHoursZone1And2::input(){
 
 	cin >> *this;
@@ -31,6 +34,12 @@ void TwoHoursZone1And2::print(){
 
 }
 
+/*
+ * I couldn't really see a use for this function. I think it should be
+ * static because if you have to call this method from an already created
+ * TwoHoursZone1And2 instance, then you should already know what it is.
+ * Calling it statically makes more sense.
+ */
 bool TwoHoursZone1And2::isTravelPass(TravelPass& pUnknown){
 
 	TwoHoursZone1And2* test = dynamic_cast<TwoHoursZone1And2*>(&pUnknown);
@@ -42,6 +51,9 @@ bool TwoHoursZone1And2::isTravelPass(TravelPass& pUnknown){
 
 }
 
+/*
+ * Output a string representing this instance.
+ */
 string TwoHoursZone1And2::toString(){
 
 	stringstream ss;
@@ -52,6 +64,9 @@ string TwoHoursZone1And2::toString(){
 
 }
 
+/*
+ * Task C - C3.
+ */
 ostream& operator<<(ostream& stream, TwoHoursZone1And2& pass){
 
 	stream << pass.toString();
@@ -60,6 +75,9 @@ ostream& operator<<(ostream& stream, TwoHoursZone1And2& pass){
 
 }
 
+/*
+ * Task C - C3. This does not validate user input.
+ */
 istream& operator>>(istream& stream, TwoHoursZone1And2& pass){
 
 	cout << "Enter length: ";

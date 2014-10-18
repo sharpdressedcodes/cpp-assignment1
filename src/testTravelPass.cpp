@@ -15,7 +15,9 @@
 
 #include "testTravelPass.h"
 
-/////////////////////////////////////////////////////
+/*
+ * Program entry point.
+ */
 int main(){
 
 	//Create MyTic object and use this object in the menu
@@ -24,12 +26,15 @@ int main(){
 	UI::subMenu timeOptions;
 	UI::subMenu zoneOptions;
 
+	// Load menus.
 	UI::instance()->loadMenu(options);
 	UI::instance()->loadTimeMenu(timeOptions);
 	UI::instance()->loadZoneMenu(zoneOptions);
    
+	// Enter main menu. This will also trigger the sub menus if selected.
 	UI::instance()->enterMenu(tic, options, timeOptions, zoneOptions);
 
+	// Clean up.
 	UI::instance()->deleteMenu(options);
 	UI::instance()->deleteTimeMenu(timeOptions);
 	UI::instance()->deleteZoneMenu(zoneOptions);

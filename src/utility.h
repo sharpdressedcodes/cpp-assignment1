@@ -18,12 +18,16 @@
 
 using namespace std;
 
+/*
+ * General purpose utility class.
+ * This is a mix of a Singleton pattern along with static functions.
+ */
 class Utility {
 
 private:
 
 	/*
-	 * Hide the constructors since this is a Singleton implementation.
+	 * Hide the constructors.
 	 */
 	Utility(){}
 	Utility(Utility const&){}

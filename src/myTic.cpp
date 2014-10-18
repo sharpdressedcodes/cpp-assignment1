@@ -40,14 +40,22 @@ void MyTic::setMaxPasses(unsigned int newValue){
 	maxPasses = newValue;
 }
 
-void MyTic::input(){
-	//
-}
+/*
+ * Not used. I thought it was better to have this functionality inside the
+ * UI class.
+ */
+void MyTic::input(){}
 
-void MyTic::print(){
-	//
-}
+/*
+ * Not used. I thought it was better to have this functionality inside the
+ * UI class.
+ */
+void MyTic::print(){}
 
+/*
+ * Attempt to add credit to an account. If the amount exceeds the limit, this
+ * function will return false.
+ */
 bool MyTic::addCredit(float amount){
 
 	if (credit + amount > limit)
@@ -58,6 +66,10 @@ bool MyTic::addCredit(float amount){
 
 }
 
+/*
+ * Attempt to buy a TravelPass. This function will return false if the user
+ * already has the maximum allowed passes.
+ */
 bool MyTic::buyPass(TravelPass* pass){
 
 	if (purchases.size() >= maxPasses)
@@ -70,6 +82,9 @@ bool MyTic::buyPass(TravelPass* pass){
 
 }
 
+/*
+ * Clear the TravelPasses from memory and empty the vector.
+ */
 void MyTic::clearPurchases(){
 
 	for (size_t i = 0; i < purchases.size(); i++)
@@ -87,6 +102,9 @@ vector<TravelPass*> MyTic::getPurchases() const {
 	return purchases;
 }
 
+/*
+ * Iterate over the purchases vector and add up the cost of each purchase.
+ */
 float MyTic::getPurchaseTotal() const {
 
 	float result = 0;
